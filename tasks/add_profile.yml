@@ -1,0 +1,19 @@
+---
+- name: Setting ephemeral variables
+  set_fact:
+    new_profile: "{{ lookup('file', terminal_add_profile) }}"
+    new_profile_name: "{{ (terminal_add_profile | basename | splitext)[0] }}"
+
+- name: Retrieve any existing profile with name "{{ new_profile_name }}"
+  command: "plutil -extract 'Window Settings.{{ new_profile_name }}' xml1 -o - {{ terminal_plist_file }}"
+  register: current_profile
+  ignore_errors: True
+  changed_when: False
+
+- name: Replace Terminal Profile
+  command: >
+      plutil
+      -replace 'Window Settings.{{ new_profile_name }}'
+      -xml '{{ new_profile }}'
+      {{ terminal_plist_file }}
+  when: ( current_profile is not defined ) or ( not new_profile == current_profile.stdout )

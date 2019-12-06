@@ -1,0 +1,42 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: vmware_desktop
+lint:
+  name: yamllint
+platforms:
+  - name: mojave-usevars
+    groups:
+      - usevars
+    box: msl/macos_mojave_10.14
+    memory: 2048
+    cpus: 2
+    config_options:
+      synced_folder: False
+  - name: mojave-novars
+    groups:
+      - novars
+    box: msl/macos_mojave_10.14
+    memory: 2048
+    cpus: 2
+    config_options:
+      synced_folder: False
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      usevars:
+        terminal_default_profile: "Ulmer"
+        terminal_add_profiles:
+          - "Ulmer.terminal"
+          - "Ulmer Pro.terminal"
+  log: True
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

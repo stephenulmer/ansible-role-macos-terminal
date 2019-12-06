@@ -1,0 +1,16 @@
+---
+- name: Set Default Terminal Profile
+  osx_defaults:
+    domain: com.apple.Terminal
+    key: "Default Window Settings"
+    type: string
+    value: "{{ terminal_default_profile }}"
+  when: terminal_default_profile is defined
+
+- name: Set Startup Terminal Profile
+  osx_defaults:
+    domain: com.apple.Terminal
+    key: "Startup Window Settings"
+    type: string
+    value: "{{ terminal_default_profile }}"
+  when: terminal_default_profile is defined

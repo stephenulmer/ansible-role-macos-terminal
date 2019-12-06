@@ -1,0 +1,4 @@
+NOTES.md
+.python-version
+__pycache__/
+*.py[cod]

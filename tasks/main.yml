@@ -1,0 +1,30 @@
+---
+- name: Setting variables
+  set_fact:
+    terminal_plist_file: "{{ ansible_env.HOME }}/Library/Preferences/com.apple.Terminal.plist"
+
+- name: Force creation of Terminal preferences file
+  command: "/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal"
+  args:
+    creates: "{{ terminal_plist_file }}"
+  async: 10
+  poll: 1
+  ignore_errors: True  # Using async so we can auto-terminate the process
+  register: terminal
+
+- name: Check for existence of Terminal preferences file
+  stat:
+    path: "{{ ansible_env.HOME }}/Library/Preferences/com.apple.Terminal.plist"
+  register: terminal_plist_status
+  changed_when: False
+
+- name: Add profiles
+  include_tasks: add_profile.yml
+  loop: "{{ terminal_add_profiles }}"
+  loop_control:
+    loop_var: terminal_add_profile
+  when: terminal_add_profiles is defined
+
+- name: Set default profile
+  include_tasks: default_profile.yml
+  when: ( terminal_default_profile is defined ) and ( terminal_default_profile | length > 0 )
