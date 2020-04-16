@@ -1,12 +1,18 @@
 ---
 dependency:
   name: galaxy
+
 driver:
   name: vagrant
   provider:
     name: vmware_desktop
-lint:
-  name: yamllint
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+  flake8
+
 platforms:
   - name: mojave-usevars
     groups:
@@ -24,6 +30,7 @@ platforms:
     cpus: 2
     config_options:
       synced_folder: False
+
 provisioner:
   name: ansible
   inventory:
@@ -34,9 +41,7 @@ provisioner:
           - "Ulmer.terminal"
           - "Ulmer Pro.terminal"
   log: True
-  lint:
-    name: ansible-lint
+
 verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  name: ansible
+  enabled: False
