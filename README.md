@@ -5,6 +5,18 @@
 Add custom Terminal.app profiles to the configuration file and/or
 select the default Terminal profile.
 
+Example playbook usage:
+```
+- name: Customize Terminal.app
+  hosts: all
+  vars:
+    terminal_add_profiles:
+      - "Ulmer.terminal"
+    terminal_default_profile: "Ulmer"
+  roles:
+    - ansible-role-macos-terminal
+```
+
 ## Role Configuration Variables
 
 **terminal_add_profiles** - A list of names of profile files (exported previously or downloaded)
