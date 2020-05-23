@@ -3,8 +3,15 @@
   set_fact:
     terminal_plist_file: "{{ ansible_env.HOME }}/Library/Preferences/com.apple.Terminal.plist"
 
+- name: Check location of Terminal.app
+  set_fact:
+    terminal_app: "{{ item }}"
+  with_first_found:
+    - /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+    - /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+
 - name: Force creation of Terminal preferences file
-  command: "/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal"
+  command: "{{ terminal_app }}"
   args:
     creates: "{{ terminal_plist_file }}"
   async: 10
