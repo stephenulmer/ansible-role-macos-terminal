@@ -4,8 +4,6 @@ dependency:
 
 driver:
   name: vagrant
-  provider:
-    name: vmware_desktop
 
 lint: |
   set -e
@@ -14,22 +12,14 @@ lint: |
   flake8
 
 platforms:
-  - name: mojave-usevars
+  - name: macos-usevars
     groups:
       - usevars
-    box: msl/macos_mojave_10.14
-    memory: 2048
-    cpus: 2
-    config_options:
-      synced_folder: False
-  - name: mojave-novars
+    box: macinbox
+  - name: macos-novars
     groups:
       - novars
-    box: msl/macos_mojave_10.14
-    memory: 2048
-    cpus: 2
-    config_options:
-      synced_folder: False
+    box: macinbox
 
 provisioner:
   name: ansible
