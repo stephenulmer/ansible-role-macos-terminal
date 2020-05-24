@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: macos_terminal
   author: Stephen Ulmer
   description: Configure Defaults for macOS Terminal
   company: Alleve Consulting, Inc.
@@ -10,8 +11,7 @@ galaxy_info:
   platforms:
     - name: MacOSX
       versions:
-        - all
-        - any
+        - 10.15
 
   galaxy_tags:
     - system
