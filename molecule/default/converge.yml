@@ -1,5 +1,15 @@
 ---
-- name: Converge
-  hosts: all
+- name: Converge with custom role variables
+  hosts: novars
+  roles:
+    - role: ansible-role-macos-terminal
+
+- name: Converge with custom role variables
+  hosts: usevars
+  vars:
+    terminal_default_profile: "Ulmer"
+    terminal_add_profiles:
+      - "Ulmer.terminal"
+      - "Ulmer Pro.terminal"
   roles:
     - role: ansible-role-macos-terminal

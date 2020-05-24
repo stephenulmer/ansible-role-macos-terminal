@@ -23,13 +23,6 @@ platforms:
 
 provisioner:
   name: ansible
-  inventory:
-    group_vars:
-      usevars:
-        terminal_default_profile: "Ulmer"
-        terminal_add_profiles:
-          - "Ulmer.terminal"
-          - "Ulmer Pro.terminal"
   log: True
 
 verifier:
