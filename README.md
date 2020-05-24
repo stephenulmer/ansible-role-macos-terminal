@@ -1,5 +1,7 @@
 # Ansible Role to Configure macOS Terminal
 
+![molecule tests](https://github.com/stephenulmer/ansible-role-macos-terminal/workflows/molecule%20tests/badge.svg)
+
 ## Usage
 
 Add custom Terminal.app profiles to the configuration file and/or
