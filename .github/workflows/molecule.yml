@@ -1,0 +1,46 @@
+## Run molecule tests on this Ansible role.
+
+name: molecule tests
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+    - 'README.md'
+
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test_with_molecule:
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        type: [ novars, usevars ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install testing software
+      run: pip install molecule yamllint ansible-lint
+
+    - name: Download role dependencies
+      run: |
+        if [ -f requirements.yml ] ; then
+          ansible-galaxy install -r requirements.yml
+        fi
+
+    - name: Write out inventory file for testing mode
+      run: |
+        echo "[${{ matrix.type }}]" > molecule/ci/cigroups
+        echo "localhost		ansible_connection=local" >> molecule/ci/cigroups
+
+    - name: Run molecule test suite
+      run: |
+        if [ -d molecule/ci ] ; then
+          molecule test -s ci
+        fi
